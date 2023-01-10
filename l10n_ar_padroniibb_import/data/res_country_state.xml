@@ -2,99 +2,99 @@
 
 <odoo>
 
-    <record model="res.country.state" id="base.state_capital_federal">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_capital_federal">
         <field name="jurisdiction_code">901</field>
     </record>
 
-    <record model="res.country.state" id="base.state_salta">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_salta">
         <field name="jurisdiction_code">917</field>
     </record>
 
-    <record model="res.country.state" id="base.state_buenos_aires">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_buenos_aires">
         <field name="jurisdiction_code">902</field>
     </record>
 
-    <record model="res.country.state" id="base.state_san_luis">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_san_luis">
         <field name="jurisdiction_code">919</field>
     </record>
 
-    <record model="res.country.state" id="base.state_entre_rios">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_entre_rios">
         <field name="jurisdiction_code">908</field>
     </record>
 
-    <record model="res.country.state" id="base.state_la_rioja">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_la_rioja">
         <field name="jurisdiction_code">912</field>
     </record>
 
-    <record model="res.country.state" id="base.state_sgo_del_estero">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_sgo_del_estero">
         <field name="jurisdiction_code">922</field>
     </record>
 
-    <record model="res.country.state" id="base.state_chaco">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_chaco">
         <field name="jurisdiction_code">906</field>
     </record>
 
-    <record model="res.country.state" id="base.state_san_juan">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_san_juan">
         <field name="jurisdiction_code">918</field>
     </record>
 
-    <record model="res.country.state" id="base.state_catamarca">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_catamarca">
         <field name="jurisdiction_code">903</field>
     </record>
 
-    <record model="res.country.state" id="base.state_la_pampa">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_la_pampa">
         <field name="jurisdiction_code">911</field>
     </record>
 
-    <record model="res.country.state" id="base.state_mendoza">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_mendoza">
         <field name="jurisdiction_code">913</field>
     </record>
 
-    <record model="res.country.state" id="base.state_misiones">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_misiones">
         <field name="jurisdiction_code">914</field>
     </record>
 
-    <record model="res.country.state" id="base.state_formosa">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_formosa">
         <field name="jurisdiction_code">909</field>
     </record>
 
-    <record model="res.country.state" id="base.state_neuquen">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_neuquen">
         <field name="jurisdiction_code">915</field>
     </record>
 
-    <record model="res.country.state" id="base.state_rio_negro">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_rio_negro">
         <field name="jurisdiction_code">916</field>
     </record>
 
-    <record model="res.country.state" id="base.state_santa_fe">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_santa_fe">
         <field name="jurisdiction_code">921</field>
     </record>
 
-    <record model="res.country.state" id="base.state_tucuman">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_tucuman">
         <field name="jurisdiction_code">924</field>
     </record>
 
-    <record model="res.country.state" id="base.state_chubut">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_chubut">
         <field name="jurisdiction_code">907</field>
     </record>
 
-    <record model="res.country.state" id="base.state_tierra_del_fuego">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_tierra_del_fuego">
         <field name="jurisdiction_code">923</field>
     </record>
 
-    <record model="res.country.state" id="base.state_corrientes">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_corrientes">
         <field name="jurisdiction_code">905</field>
     </record>
 
-    <record model="res.country.state" id="base.state_cordoba">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_cordoba">
         <field name="jurisdiction_code">904</field>
     </record>
 
-    <record model="res.country.state" id="base.state_jujuy">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_jujuy">
         <field name="jurisdiction_code">910</field>
     </record>
 
-    <record model="res.country.state" id="base.state_santa_cruz">
+    <record model="res.country.state" id="l10n_ar_base_country_state.state_santa_cruz">
         <field name="jurisdiction_code">920</field>
     </record>
 
