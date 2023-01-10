@@ -28,6 +28,7 @@
         "base_vat_ar",
         "l10n_ar_retentions",
         "l10n_ar_perceptions",
+        "l10n_ar_base_country_state",
     ],
     "data": [
         "security/ir.model.access.csv",
