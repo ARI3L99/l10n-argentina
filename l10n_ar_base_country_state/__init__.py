@@ -5,4 +5,3 @@
 
 from . import models  # noqa
 from . import wizard  # noqa
-from .hooks import update_country_states_hook
