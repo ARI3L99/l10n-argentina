@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="general_padron_view" model="ir.ui.view">
+            <field name="name">general.padron.form</field>
+            <field name="model">general.padron</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+    
+                    <sheet>
+                            <group>
+                                <field name="padron_name"/>
+                                <field name="from_date"/>
+                                <field name="to_date" />
+                                <field name="vat" />
+                                <field name="percentage_perception" />
+                                <field name="percentage_retention" />
+                                <field name="multilateral" />
+                                <field name="name_partner" />
+                                <field name="denomination" />
+                                <field name="period" />
+                                <field name="category" />
+                                <field name="category_description" />
+                                <field name="ac_ret_28_97" />
+                                <field name="ac_per_23_14" />
+                                <field name="date_ret_28_97" />
+                                <field name="date_per_23_14" />
+                                <field name="ac_per_33_99" />
+                                <field name="ac_per_27_00" />
+                                <field name="date_per_33_99" />
+                                <field name="date_per_27_00" />
+                                <field name="regime" />
+                                <field name="exent" />
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_general_padron_tree">
+            <field name="name">general.padron.tree</field>
+            <field name="model">general.padron</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="General Padrón">
+                    <field name="padron_name"/>
+                    <field name="from_date"/>
+                    <field name="to_date" />
+                    <field name="vat" />
+                    <field name="percentage_perception" />
+                    <field name="percentage_retention" />
+                    <field name="multilateral" />
+                    <field name="name_partner" />
+                    <field name="denomination" />
+                    <field name="period" />
+                    <field name="category" />
+                    <field name="category_description" />
+                    <field name="ac_ret_28_97" />
+                    <field name="ac_per_23_14" />
+                    <field name="date_ret_28_97" />
+                    <field name="date_per_23_14" />
+                    <field name="ac_per_33_99" />
+                    <field name="ac_per_27_00" />
+                    <field name="date_per_33_99" />
+                    <field name="date_per_27_00" />
+                    <field name="regime" />
+                    <field name="exent" />
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_general_padron" model="ir.actions.act_window">
+            <field name="name">General Padrón</field>
+            <field name="res_model">general.padron</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="general_padron_root_menu" 
+                    action="action_general_padron" 
+                    name="Padrón General" 
+                    parent="padrones_root_menu" 
+                    sequence="10" />
+
+    </data>
+</odoo>
