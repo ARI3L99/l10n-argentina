@@ -24,12 +24,12 @@ class GeneralPadron(models.Model):
     group_perception_id = fields.Many2one(
         'agip.perception.group', 'Perception Group')
     coeficiente = fields.Float("Coeficiente")
-
+    
     denomination = fields.Text('Denomination')
     period = fields.Char('Period')
     category = fields.Char('Category', size=20)
     category_description = fields.Char('Category description', size=18)
-    ac_ret_28_97 = fields.Float('Alicuota retention rg 28 97', size=6)
+    ac_ret_28_97 = fields.Float('Alicuota retention rg 28 97', size=6)#cambiar para que sea igual a percetage retencion
     ac_per_23_14 = fields.Float('Alicuota perception rg 23 14', size=6)
     date_ret_28_97 = fields.Date('Date retention rg 28 97')
     date_per_23_14 = fields.Date('Date perception rg 23 14')

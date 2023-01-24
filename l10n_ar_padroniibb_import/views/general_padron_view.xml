@@ -17,22 +17,22 @@
                                 <field name="vat" />
                                 <field name="percentage_perception" />
                                 <field name="percentage_retention" />
-                                <field name="multilateral" />
+                                <field name="multilateral" optional="show"/>
                                 <field name="name_partner" />
-                                <field name="denomination" />
-                                <field name="period" />
-                                <field name="category" />
-                                <field name="category_description" />
-                                <field name="ac_ret_28_97" />
-                                <field name="ac_per_23_14" />
-                                <field name="date_ret_28_97" />
-                                <field name="date_per_23_14" />
-                                <field name="ac_per_33_99" />
-                                <field name="ac_per_27_00" />
-                                <field name="date_per_33_99" />
-                                <field name="date_per_27_00" />
-                                <field name="regime" />
-                                <field name="exent" />
+                                <field name="denomination" optional="show"/>
+                                <field name="period" optional="show"/>
+                                <field name="category" optional="show"/>
+                                <field name="category_description" optional="show"/>
+                                <field name="ac_ret_28_97" optional="show"/>
+                                <field name="ac_per_23_14" optional="show"/>
+                                <field name="date_ret_28_97" optional="show"/>
+                                <field name="date_per_23_14" optional="show"/>
+                                <field name="ac_per_33_99" optional="show"/>
+                                <field name="ac_per_27_00" optional="show"/>
+                                <field name="date_per_33_99" optional="show"/>
+                                <field name="date_per_27_00" optional="show"/>
+                                <field name="regime" optional="show"/>
+                                <field name="exent" optional="show"/>
                             </group>
                     </sheet>
                 </form>
