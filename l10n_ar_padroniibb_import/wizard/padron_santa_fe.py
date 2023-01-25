@@ -51,6 +51,7 @@ class PadronImport(models.Model):
 
 
         _logger.info('[SANTA_FE] Files extracted: ' + str(len(files)))
+        padron_name = 'santa_fe'
         if len(files) != 1:
             raise ValidationError(
                 _('Expected one file compressed, got: %d') %
@@ -94,17 +95,22 @@ class PadronImport(models.Model):
 
             _logger.info('[SANTA_FE] Copiando de tabla temporal a definitiva')
             query = """
-            INSERT INTO padron_santa_fe_percentages
+            INSERT INTO general_padron
             (create_uid, write_uid,
             vat, percentage_perception)
             SELECT 1 as create_uid,
             1,
             vat,
-            percentage_perception
+            percentage_perception,
             FROM temp_import
             """
-            cursor.execute("DELETE FROM padron_santa_fe_percentages")
+            query2 = """
+            INSERT INTO general_padron
+            (padron_name)
+            VALUES (""" +padron_name+")"
+            cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name)
             cursor.execute(query)
+            cursor.execute(query2)
             cursor.execute("DROP TABLE IF EXISTS temp_import")
             cursor.commit()
         except Exception:

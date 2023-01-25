@@ -47,6 +47,7 @@ class PadronImport(models.Model):
     def import_904_file(self, out_path, files):
         _logger.info('[CORDOBA] Inicio de importacion')
         dsn_pg_splitted = get_dsn_pg(self.env.cr)
+        padron_name = 'cordoba'
         _logger.info('[CORDOBA] Files extracted: ' + str(len(files)))
         if len(files) != 1:
             raise ValidationError(
@@ -97,7 +98,7 @@ class PadronImport(models.Model):
 
             _logger.info('[CORDOBA] Copiando de tabla temporal a definitiva')
             query = """
-            INSERT INTO padron_cordoba_perception
+            INSERT INTO general_padron
             (create_uid, create_date, write_date, write_uid,
             vat, percentage_perception, from_date, to_date, multilateral)
             SELECT 1 as create_uid,
@@ -114,8 +115,13 @@ class PadronImport(models.Model):
                     END) as multilateral
                     FROM temp_import
             """
-            cursor.execute("DELETE FROM padron_cordoba_perception")
+            query2 = """
+            INSERT INTO general_padron
+            (padron_name)
+            VALUES (""" +padron_name+")"
+            cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name)
             cursor.execute(query)
+            cursor.execute(query2)
             cursor.execute("DROP TABLE IF EXISTS temp_import")
             cursor.commit()
         except Exception:

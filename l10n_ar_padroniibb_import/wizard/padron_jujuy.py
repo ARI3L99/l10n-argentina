@@ -47,6 +47,7 @@ class PadronImport(models.Model):
     def import_910_file(self, out_path, files):
         _logger.info('[JUJUY] Inicio de importacion')
         dsn_pg_splitted = get_dsn_pg(self.env.cr)
+        padron_name = 'jujuy'
         _logger.info('[JUJUY] Files extracted: ' + str(len(files)))
         if len(files) != 1:
             raise ValidationError(
@@ -94,7 +95,7 @@ class PadronImport(models.Model):
 
             _logger.info('[JUJUY] Copiando de tabla temporal a definitiva')
             query = """
-            INSERT INTO padron_jujuy_percentages
+            INSERT INTO general_padron
             (create_uid, write_uid,
             vat,from_date,
             percentage_perception, percentage_retention)
@@ -106,8 +107,10 @@ class PadronImport(models.Model):
             TO_NUMBER(percentage_retention, '999.99')
             FROM temp_import
             """
-            cursor.execute("DELETE FROM padron_jujuy_percentages")
+            
+            cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name)
             cursor.execute(query)
+            #cursor.execute(query2)
             cursor.execute("DROP TABLE IF EXISTS temp_import")
             cursor.commit()
         except Exception:

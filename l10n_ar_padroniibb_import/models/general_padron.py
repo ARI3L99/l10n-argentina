@@ -4,14 +4,16 @@ from odoo.exceptions import ValidationError
 class GeneralPadron(models.Model):
     _name = 'general.padron'
 
-    padron_name = fields.Selection([('arba', 'ARBA'),
+    padron_name = fields.Selection([
+    ('arba', 'ARBA'),
     ('agip', 'AGIP'),
     ('agip_rp', 'AGIP_RP'),
     ('santa_fe', 'SANTA_FE'),
     ('jujuy', 'JUJUY'),
     ('cordoba', 'CORDOBA'),
     ('tucuman', 'TUCUMAN'),
-    ('formosa', 'FORMOSA'),],string='Padron name')
+    ('formosa', 'FORMOSA'),
+],string='Padron name')
     from_date = fields.Date('From date')
     to_date = fields.Date('To date')
     vat = fields.Char('Afip code', size=15, index=1)

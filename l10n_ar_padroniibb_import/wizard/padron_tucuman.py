@@ -49,7 +49,7 @@ class PadronImport(models.Model):
 
         _logger.info("[TUCUMAN] Inicio de importacion")
         dsn_pg_splitted = get_dsn_pg(self.env.cr)  # Configuracion base de datos
-
+        padron_name = 'tucuman'
         _logger.info("[TUCUMAN] Files extracted: " + str(len(files)))
         if len(files) != 1:
             raise ValidationError(
@@ -83,7 +83,7 @@ class PadronImport(models.Model):
                 assert retcode == 0, 'Call expected return 0'
 
                 try:
-                    query = """ INSERT INTO padron_tucuman_acreditan
+                    query = """ INSERT INTO general_padron
                         (create_uid, create_date, write_date, write_uid,
                         from_date, to_date, percentage_perception, vat, multilateral)
                     SELECT  1 as create_uid,
@@ -99,11 +99,15 @@ class PadronImport(models.Model):
                         END AS multilateral
                     FROM temp_import
             """
+                    query2 = """
+            INSERT INTO general_padron
+            (padron_name)
+            VALUES (""" +padron_name+")"
 
-
-                    cursor.execute("DELETE FROM padron_tucuman_acreditan")
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name)
                     _logger.info('[TUCUMAN] Acreditan - Copiando a tabla definitiva')
                     cursor.execute(query)
+                    cursor.execute(query2)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
                 except Exception:
@@ -133,7 +137,7 @@ class PadronImport(models.Model):
                 assert retcode == 0, 'Call expected return 0'
 
                 try:
-                    query = """ INSERT INTO padron_tucuman_coeficiente
+                    query = """ INSERT INTO general_padron
                     (create_uid, create_date, write_date, write_uid,
                     from_date, coeficiente, percentage_perception, vat)
                     SELECT  1 as create_uid,
@@ -145,9 +149,14 @@ class PadronImport(models.Model):
                         to_number(percentage_perception, '999.9999'),
                         vat
                     FROM temp_import"""
-                    cursor.execute("DELETE FROM padron_tucuman_coeficiente")
+                    query2 = """
+            INSERT INTO general_padron
+            (padron_name)
+            VALUES (""" +padron_name+")"
+                    cursor.execute("DELETE FROM general_padron")
                     _logger.info('[TUCUMAN] Coeficiente - Copiando a tabla definitiva')
                     cursor.execute(query)
+                    cursor.execute(query2)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
                 except Exception:
