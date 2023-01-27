@@ -47,6 +47,7 @@ class PadronImport(models.Model):
     def import_917_file(self, out_path, files):
         _logger.info('[SALTA] Inicio de importacion')
         dsn_pg_splitted = get_dsn_pg(self.env.cr)
+        padron_name = 'salta'
         _logger.info('[SALTA] Files extracted: ' + str(len(files)))
         if len(files) != 1:
             raise ValidationError(
@@ -89,19 +90,21 @@ class PadronImport(models.Model):
 
             _logger.info('[SALTA] Copiando de tabla temporal a definitiva')
             query = """
-            INSERT INTO padron_salta
+            INSERT INTO general_padron
             (create_uid, create_date, write_date, write_uid,
-            vat, name_partner, percentage_perception)
+            vat, name_partner, percentage_perception,padron_name)
             SELECT 1 as create_uid,
                     current_date,
                     current_date,
                     1,
                     vat,
                     name_partner,
-                    to_number(percentage_perception, '9.9999')
-                    FROM temp_import
+                    to_number(percentage_perception, '9.9999'),
+                    'salta' as padron_name
+            FROM (SELECT vat,name_partner,percentage_perception FROM temp_import) sub_query;
             """
-            cursor.execute("DELETE FROM padron_salta")
+
+            cursor.execute("DELETE FROM general_padron WHERE padron_name = 'salta'")
             cursor.execute(query)
             cursor.execute("DROP TABLE IF EXISTS temp_import")
             cursor.commit()

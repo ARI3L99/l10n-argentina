@@ -45,7 +45,7 @@ class PadronImport(models.Model):
     def import_agip_file(self, out_path, files):
         _logger.info('[AGIP] Inicio de importacion')
         dsn_pg_splitted = get_dsn_pg(self.env.cr)
-
+        padron_name = 'agip'
         _logger.info('[AGIP] Files extracted: ' + str(len(files)))
 
         if len(files) != 1:
@@ -77,10 +77,10 @@ class PadronImport(models.Model):
                     _logger.info('[AGIP] Verificando grupos')
                     _logger.info('[AGIP] Copiando de tabla temporal a definitiva')
                     query = """
-                        INSERT INTO padron_agip_percentages
+                        INSERT INTO general_padron
                         (create_uid, create_date, write_date, write_uid,
                         from_date, to_date, percentage_perception, percentage_retention,
-                        vat, multilateral, name_partner)
+                        vat, multilateral, name_partner,padron_name)
                         SELECT 1 as create_uid,
                         to_date(create_date, 'DDMMYYYY'),
                         current_date,
@@ -94,9 +94,13 @@ class PadronImport(models.Model):
                             WHEN multilateral = 'C' THEN True
                             ELSE False
                         END) as multilateral,
-                        name_partner FROM temp_import
-                        """
-                    cursor.execute("DELETE FROM padron_agip_percentages")
+                        name_partner,
+                        'agip_rp' as padron_name
+            FROM (SELECT create_date,from_date, to_date, percentage_perception, percentage_retention,
+                        vat, multilateral, name_partner FROM temp_import) sub_query;
+            """
+
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'agip_rp' ")
                     cursor.execute(query)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
@@ -135,10 +139,10 @@ class PadronImport(models.Model):
                     _logger.info('[AGIP] Verificando grupos')
                     _logger.info('[AGIP] Copiando de tabla temporal a definitiva')
                     query = """
-                        INSERT INTO padron_agip_percentages_rp
+                        INSERT INTO general_padron
                         (create_uid, create_date, write_date, write_uid,
                         from_date, to_date, percentage_perception, percentage_retention,
-                        vat, multilateral, name_partner)
+                        vat, multilateral, name_partner,padron_name)
                         SELECT 1 as create_uid,
                         to_date(create_date, 'DDMMYYYY'),
                         current_date,
@@ -152,9 +156,13 @@ class PadronImport(models.Model):
                             WHEN multilateral = 'C' THEN True
                             ELSE False
                         END) as multilateral,
-                        name_partner FROM temp_import
-                        """
-                    cursor.execute("DELETE FROM padron_agip_percentages_rp")
+                        name_partner,
+                        'agip' as padron_name
+            FROM (SELECT create_date,from_date, to_date, percentage_perception, percentage_retention,
+                        vat, multilateral, name_partner FROM temp_import) sub_query;
+            """
+
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'agip' ")
                     cursor.execute(query)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()

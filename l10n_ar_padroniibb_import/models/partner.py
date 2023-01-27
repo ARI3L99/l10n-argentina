@@ -46,9 +46,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_agip(self, vat):
-        padron_agip_obj = self.env['padron.agip_percentages']
+        padron_agip_obj = self.env['general.padron']#cambia a general padron
         perception_obj = self.env['perception.perception']
-        per_ids = padron_agip_obj.search([('vat', '=', vat)])
+        per_ids = padron_agip_obj.search([('vat', '=', vat),('padron_name', '=', 'agip')])#añadir que busque por el padron name
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -67,9 +67,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_agip_rp(self, vat):
-        padron_agip_obj = self.env['padron.agip_percentages.rp']
+        padron_agip_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_agip_obj.search([('vat', '=', vat)])
+        per_ids = padron_agip_obj.search([('vat', '=', vat),('padron_name', '=', 'agip')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -88,9 +88,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_arba(self, vat):
-        padron_arba_per_obj = self.env['padron.arba_perception']
+        padron_arba_per_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_arba_per_obj.search([('vat', '=', vat)])
+        per_ids = padron_arba_per_obj.search([('vat', '=', vat),('padron_name', '=', 'arba')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -109,9 +109,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_santa_fe(self, vat):
-        padron_santa_fe_obj = self.env['padron.santa_fe_percentages']
+        padron_santa_fe_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_santa_fe_obj.search([('vat', '=', vat)])
+        per_ids = padron_santa_fe_obj.search([('vat', '=', vat),('padron_name', '=', 'santa_fe')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -130,9 +130,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_jujuy(self, vat):
-        padron_jujuy_obj = self.env['padron.jujuy_percentages']
+        padron_jujuy_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_jujuy_obj.search([('vat', '=', vat)])
+        per_ids = padron_jujuy_obj.search([('vat', '=', vat),('padron_name', '=', 'jujuy')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -151,9 +151,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_cordoba(self, vat):
-        padron_cordoba_obj = self.env['padron.cordoba_perception']
+        padron_cordoba_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_cordoba_obj.search([('vat', '=', vat)])
+        per_ids = padron_cordoba_obj.search([('vat', '=', vat),('padron_name', '=', 'cordoba')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -172,9 +172,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_tucuman_acreditan(self, vat):
-        padron_tucuman_obj = self.env['padron.tucuman_acreditan']
+        padron_tucuman_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_tucuman_obj.search([('vat', '=', vat)])
+        per_ids = padron_tucuman_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -192,9 +192,9 @@ class res_partner(models.Model):
         return res
     @api.model
     def _check_padron_perception_tucuman_coeficiente(self, vat):
-        padron_tucuman_obj = self.env['padron.tucuman_coeficiente']
+        padron_tucuman_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_tucuman_obj.search([('vat', '=', vat)])
+        per_ids = padron_tucuman_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -213,9 +213,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_formosa(self, vat):
-        padron_formosa_obj = self.env['padron.formosa']
+        padron_formosa_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_formosa_obj.search([('vat', '=', vat)])
+        per_ids = padron_formosa_obj.search([('vat', '=', vat),('padron_name', '=', 'formosa')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -236,9 +236,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_retention_agip(self, vat):
-        padron_agip_obj = self.env['padron.agip_percentages']
+        padron_agip_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_agip_obj.search([('vat', '=', vat)])
+        ret_ids = padron_agip_obj.search([('vat', '=', vat),('padron_name', '=', 'agip')])
         res = {}
         if ret_ids:
             retent_ids = retention_obj._get_retention_from_agip()
@@ -256,9 +256,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_retention_agip_rp(self, vat):
-        padron_agip_obj = self.env['padron.agip_percentages.rp']
+        padron_agip_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_agip_obj.search([('vat', '=', vat)])
+        ret_ids = padron_agip_obj.search([('vat', '=', vat),('padron_name', '=', 'agip')])
         res = {}
         if ret_ids:
             retent_ids = retention_obj._get_retention_from_agip_rp()
@@ -276,9 +276,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_retention_arba(self, vat):
-        padron_arba_ret_obj = self.env['padron.arba_retention']
+        padron_arba_ret_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_arba_ret_obj.search([('vat', '=', vat)])
+        ret_ids = padron_arba_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'arba')])
         res = {}
         # TODO: Chequear vigencia
         if ret_ids:
@@ -297,9 +297,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_retention_santa_fe(self, vat):
-        padron_santa_fe_ret_obj = self.env['padron.santa_fe_percentages']
+        padron_santa_fe_ret_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_santa_fe_ret_obj.search([('vat', '=', vat)])
+        ret_ids = padron_santa_fe_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'santa_fe')])
         res = {}
         # TODO: Chequear vigencia
         if ret_ids:
@@ -318,9 +318,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_retention_jujuy(self, vat):
-        padron_jujuy_ret_obj = self.env['padron.jujuy_percentages']
+        padron_jujuy_ret_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_jujuy_ret_obj.search([('vat', '=', vat)])
+        ret_ids = padron_jujuy_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'jujuy')])
         res = {}
         # TODO: Chequear vigencia
         if ret_ids:
@@ -338,9 +338,9 @@ class res_partner(models.Model):
         return res
     @api.model
     def _check_padron_retention_tucuman_acreditan(self, vat):
-        padron_tucuman_ret_obj = self.env['padron.tucuman_acreditan']
+        padron_tucuman_ret_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_tucuman_ret_obj.search([('vat', '=', vat)])
+        ret_ids = padron_tucuman_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman')])
         res = {}
         # TODO: Chequear vigencia
         if ret_ids:
@@ -359,9 +359,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_retention_tucuman_coeficiente(self, vat):
-        padron_tucuman_ret_obj = self.env['padron.tucuman_coeficiente']
+        padron_tucuman_ret_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_tucuman_ret_obj.search([('vat', '=', vat)])
+        ret_ids = padron_tucuman_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman')])
         res = {}
         # TODO: Chequear vigencia
         if ret_ids:
@@ -380,9 +380,9 @@ class res_partner(models.Model):
         
     @api.model
     def _check_padron_retention_formosa(self, vat):
-        padron_formosa_ret_obj = self.env['padron.formosa']
+        padron_formosa_ret_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_formosa_ret_obj.search([('vat', '=', vat)])
+        ret_ids = padron_formosa_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'formosa')])
         res = {}
         # TODO: Chequear vigencia
         if ret_ids:

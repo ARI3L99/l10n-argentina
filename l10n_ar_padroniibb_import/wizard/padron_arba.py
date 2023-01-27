@@ -45,7 +45,7 @@ class PadronImport(models.Model):
     def import_arba_file(self, out_path, files):
         _logger.info('[ARBA] Inicio de importacion')
         dsn_pg_splitted = get_dsn_pg(self.env.cr)
-
+        padron_name = 'arba'
 
         _logger.info('[ARBA] Files extracted: ' + str(len(files)))
         if len(files) != 2:
@@ -74,9 +74,9 @@ class PadronImport(models.Model):
                 assert retcode == 0, 'Call expected return 0'
                 try:
                     query = """
-                    INSERT INTO padron_arba_retention
+                    INSERT INTO general_padron
                     (create_uid, create_date, write_date, write_uid,
-                    vat, percentage_retention, from_date, to_date, multilateral)
+                    vat, percentage_retention, from_date, to_date, multilateral,padron_name)
                     SELECT 1 as create_uid,
                     to_date(create_date,'DDMMYYYY'),
                     current_date,
@@ -88,10 +88,12 @@ class PadronImport(models.Model):
                     (CASE
                         WHEN multilateral = 'C'
                         THEN True ELSE False
-                    END) as multilateral
-                    FROM temp_import
-                    """
-                    cursor.execute("DELETE FROM padron_arba_retention")
+                    END) as multilateral,
+                    'arba_ret' as padron_name
+            FROM (SELECT create_date,vat, percentage_retention, from_date, to_date, multilateral FROM temp_import) sub_query;
+            """
+
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'arba_ret' ")
                     _logger.info('[ARBA] Ret - Copiando a tabla definitiva')
                     cursor.execute(query)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
@@ -114,9 +116,9 @@ class PadronImport(models.Model):
                 assert retcode == 0, 'Call expected return 0'
                 try:
                     query = """
-                    INSERT INTO padron_arba_perception
+                    INSERT INTO general_padron
                     (create_uid, create_date, write_date, write_uid,
-                    vat, percentage_perception, from_date, to_date, multilateral)
+                    vat, percentage_perception, from_date, to_date, multilateral,padron_name)
                     SELECT 1 as create_uid,
                     to_date(create_date,'DDMMYYYY'),
                     current_date,
@@ -128,12 +130,15 @@ class PadronImport(models.Model):
                     (CASE
                         WHEN multilateral = 'C'
                         THEN True ELSE False
-                    END) as multilateral
-                    FROM temp_import
-                    """
-                    cursor.execute("DELETE FROM padron_arba_perception")
+                    END) as multilateral,
+                    'arba_per' as padron_name
+            FROM (SELECT create_date,vat, percentage_perception, from_date, to_date, multilateral FROM temp_import) sub_query;
+            """
+
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'arba_per' ")
                     _logger.info('[ARBA] Per - Copiando a tabla definitiva')
                     cursor.execute(query)
+
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
                 except Exception:

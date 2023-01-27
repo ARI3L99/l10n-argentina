@@ -94,19 +94,21 @@ class PadronImport(models.Model):
 
             _logger.info('[JUJUY] Copiando de tabla temporal a definitiva')
             query = """
-            INSERT INTO padron_jujuy_percentages
+            INSERT INTO general_padron
             (create_uid, write_uid,
             vat,from_date,
-            percentage_perception, percentage_retention)
+            percentage_perception, percentage_retention,padron_name)
             SELECT 1 as create_uid,
             1,
             vat,
             TO_DATE(from_date, 'YYYYMM'),
             TO_NUMBER(percentage_perception, '999.99'),
-            TO_NUMBER(percentage_retention, '999.99')
-            FROM temp_import
+            TO_NUMBER(percentage_retention, '999.99'),
+            'jujuy' as padron_name
+            FROM (SELECT vat,from_date,percentage_perception,percentage_retention FROM temp_import) sub_query;
             """
-            cursor.execute("DELETE FROM padron_jujuy_percentages")
+
+            cursor.execute("DELETE FROM general_padron WHERE padron_name = 'jujuy' ")
             cursor.execute(query)
             cursor.execute("DROP TABLE IF EXISTS temp_import")
             cursor.commit()
