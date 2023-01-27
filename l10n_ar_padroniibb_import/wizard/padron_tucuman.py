@@ -98,7 +98,7 @@ class PadronImport(models.Model):
                              ELSE False
                         END AS multilateral,
             'tucuman_acre' as padron_name
-            FROM (SELECT from_date, coeficiente, percentage_perception, vat FROM temp_import) sub_query;
+            FROM (SELECT create_date,from_date, to_date, percentage_perception, vat, multilateral FROM temp_import) sub_query;
             """
 
                     cursor.execute("DELETE FROM general_padron WHERE padron_name = 'tucuman_acre' ")
@@ -145,7 +145,7 @@ class PadronImport(models.Model):
                         to_number(percentage_perception, '999.9999'),
                         vat,
             'tucuman_coef' as padron_name
-            FROM (SELECT from_date, coeficiente, percentage_perception, vat FROM temp_import) sub_query;
+            FROM (SELECT create_date,from_date, coeficiente, percentage_perception, vat FROM temp_import) sub_query;
             """
 
                     cursor.execute("DELETE FROM general_padron WHERE padron_name = 'tucuman_coef' ")
