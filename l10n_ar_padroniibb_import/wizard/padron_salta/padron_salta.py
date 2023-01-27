@@ -92,23 +92,20 @@ class PadronImport(models.Model):
             query = """
             INSERT INTO general_padron
             (create_uid, create_date, write_date, write_uid,
-            vat, name_partner, percentage_perception)
+            vat, name_partner, percentage_perception,padron_name)
             SELECT 1 as create_uid,
                     current_date,
                     current_date,
                     1,
                     vat,
                     name_partner,
-                    to_number(percentage_perception, '9.9999')
-                    FROM temp_import
+                    to_number(percentage_perception, '9.9999'),
+                    'salta' as padron_name
+            FROM (SELECT vat,name_partner,percentage_perception FROM temp_import) sub_query;
             """
-            query2 = """
-            INSERT INTO general_padron
-            (padron_name)
-            VALUES (""" +padron_name+")"
-            cursor.execute("DELETE FROM general_padron")
+
+            cursor.execute("DELETE FROM general_padron WHERE padron_name = 'salta'")
             cursor.execute(query)
-            #cursor.execute(query2)
             cursor.execute("DROP TABLE IF EXISTS temp_import")
             cursor.commit()
         except Exception:

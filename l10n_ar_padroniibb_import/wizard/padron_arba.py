@@ -76,7 +76,7 @@ class PadronImport(models.Model):
                     query = """
                     INSERT INTO general_padron
                     (create_uid, create_date, write_date, write_uid,
-                    vat, percentage_retention, from_date, to_date, multilateral)
+                    vat, percentage_retention, from_date, to_date, multilateral,padron_name)
                     SELECT 1 as create_uid,
                     to_date(create_date,'DDMMYYYY'),
                     current_date,
@@ -88,17 +88,14 @@ class PadronImport(models.Model):
                     (CASE
                         WHEN multilateral = 'C'
                         THEN True ELSE False
-                    END) as multilateral
-                    FROM temp_import
-                    """
-                    query2 = """
-            INSERT INTO general_padron
-            (padron_name)
-            VALUES (""" +padron_name+")"
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name)
+                    END) as multilateral,
+                    'arba_ret' as padron_name
+            FROM (SELECT create_date,vat, percentage_retention, from_date, to_date, multilateral FROM temp_import) sub_query;
+            """
+
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'arba_ret' ")
                     _logger.info('[ARBA] Ret - Copiando a tabla definitiva')
                     cursor.execute(query)
-                    cursor.execute(query2)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
                 except Exception:
@@ -121,7 +118,7 @@ class PadronImport(models.Model):
                     query = """
                     INSERT INTO general_padron
                     (create_uid, create_date, write_date, write_uid,
-                    vat, percentage_perception, from_date, to_date, multilateral)
+                    vat, percentage_perception, from_date, to_date, multilateral,padron_name)
                     SELECT 1 as create_uid,
                     to_date(create_date,'DDMMYYYY'),
                     current_date,
@@ -133,17 +130,15 @@ class PadronImport(models.Model):
                     (CASE
                         WHEN multilateral = 'C'
                         THEN True ELSE False
-                    END) as multilateral
-                    FROM temp_import
-                    """
-                    query2 = """
-            INSERT INTO general_padron
-            (padron_name)
-            VALUES (""" +padron_name+")"
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name)
+                    END) as multilateral,
+                    'arba_per' as padron_name
+            FROM (SELECT create_date,vat, percentage_perception, from_date, to_date, multilateral FROM temp_import) sub_query;
+            """
+
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'arba_per' ")
                     _logger.info('[ARBA] Per - Copiando a tabla definitiva')
                     cursor.execute(query)
-                    cursor.execute(query2)
+
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
                 except Exception:

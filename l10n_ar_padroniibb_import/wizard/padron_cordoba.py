@@ -100,7 +100,7 @@ class PadronImport(models.Model):
             query = """
             INSERT INTO general_padron
             (create_uid, create_date, write_date, write_uid,
-            vat, percentage_perception, from_date, to_date, multilateral)
+            vat, percentage_perception, from_date, to_date, multilateral,padron_name)
             SELECT 1 as create_uid,
                     to_date(create_date,'DDMMYYYY'),
                     current_date,
@@ -112,16 +112,13 @@ class PadronImport(models.Model):
                     (CASE
                         WHEN multilateral = 'C'
                         THEN True ELSE False
-                    END) as multilateral
-                    FROM temp_import
+                    END) as multilateral,
+                    'cordoba' as padron_name
+            FROM (SELECT vat, percentage_perception, from_date, to_date, multilateral FROM temp_import) sub_query;
             """
-            query2 = """
-            INSERT INTO general_padron
-            (padron_name)
-            VALUES (""" +padron_name+")"
-            cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name)
+
+            cursor.execute("DELETE FROM general_padron WHERE padron_name = 'cordoba' ")
             cursor.execute(query)
-            cursor.execute(query2)
             cursor.execute("DROP TABLE IF EXISTS temp_import")
             cursor.commit()
         except Exception:

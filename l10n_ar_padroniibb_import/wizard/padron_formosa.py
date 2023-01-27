@@ -46,7 +46,6 @@ class PadronImport(models.Model):
     @api.model
     def import_909_file(self, out_path, files):
         _logger.info('[FORMOSA] Inicio de importacion')
-        padron_name = 'formosa'
         dsn_pg_splitted = get_dsn_pg(self.env.cr)
         _logger.info('[FORMOSA] Files extracted: ' + str(len(files)))
         if len(files) != 1:
@@ -105,7 +104,10 @@ class PadronImport(models.Model):
             query = """
             INSERT INTO general_padron
             (create_uid, create_date, write_date, write_uid,
-            vat, denomination, period, category, category_description, ac_ret_28_97, ac_per_23_14, date_ret_28_97, date_per_23_14, ac_per_33_99, ac_per_27_00, date_per_33_99, date_per_27_00, regime, exent)
+            vat, denomination, period, category, category_description,
+            ac_ret_28_97, ac_per_23_14, date_ret_28_97, date_per_23_14,
+            ac_per_33_99, ac_per_27_00, date_per_33_99, date_per_27_00,
+            regime, exent,padron_name)
             SELECT 1 as create_uid,
                     current_date,
                     current_date,
@@ -127,16 +129,15 @@ class PadronImport(models.Model):
                     (CASE
                         WHEN exent = 'SI'
                         THEN True ELSE False
-                    END) as exent
-                    FROM temp_import
+                    END) as exent,
+                    'formosa' as padron_name
+            FROM (SELECT vat, denomination, period, category, category_description,
+            ac_ret_28_97, ac_per_23_14, date_ret_28_97, date_per_23_14,
+            ac_per_33_99, ac_per_27_00, date_per_33_99, date_per_27_00,
+            regime, exent FROM temp_import) sub_query;
             """
-            query2 = """
-            INSERT INTO general_padron
-            (padron_name)
-            VALUES (""" +padron_name+")"
-            cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name)
+            cursor.execute("DELETE FROM general_padron WHERE padron_name = 'formosa' ")
             cursor.execute(query)
-            cursor.execute(query2)
             cursor.execute("DROP TABLE IF EXISTS temp_import")
             cursor.commit()
         except Exception:

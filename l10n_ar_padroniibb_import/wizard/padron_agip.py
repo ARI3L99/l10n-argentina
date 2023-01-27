@@ -94,15 +94,14 @@ class PadronImport(models.Model):
                             WHEN multilateral = 'C' THEN True
                             ELSE False
                         END) as multilateral,
-                        name_partner FROM temp_import
-                        """
-                    query2 = """
-            INSERT INTO general_padron
-            (padron_name)
-            VALUES (""" +padron_name+")"
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name )
+                        name_partner,
+                        'agip_rp' as padron_name
+            FROM (SELECT create_date,from_date, to_date, percentage_perception, percentage_retention,
+                        vat, multilateral, name_partner FROM temp_import) sub_query;
+            """
+
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'agip_rp' ")
                     cursor.execute(query)
-                    cursor.execute(query2)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
                 except Exception:
@@ -143,7 +142,7 @@ class PadronImport(models.Model):
                         INSERT INTO general_padron
                         (create_uid, create_date, write_date, write_uid,
                         from_date, to_date, percentage_perception, percentage_retention,
-                        vat, multilateral, name_partner)
+                        vat, multilateral, name_partner,padron_name)
                         SELECT 1 as create_uid,
                         to_date(create_date, 'DDMMYYYY'),
                         current_date,
@@ -157,9 +156,13 @@ class PadronImport(models.Model):
                             WHEN multilateral = 'C' THEN True
                             ELSE False
                         END) as multilateral,
-                        name_partner FROM temp_import
-                        """
-                    cursor.execute("DELETE FROM padron_agip_percentages_rp")
+                        name_partner,
+                        'agip' as padron_name
+            FROM (SELECT create_date,from_date, to_date, percentage_perception, percentage_retention,
+                        vat, multilateral, name_partner FROM temp_import) sub_query;
+            """
+
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'agip' ")
                     cursor.execute(query)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()

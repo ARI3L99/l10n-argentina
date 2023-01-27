@@ -5,13 +5,16 @@ class GeneralPadron(models.Model):
     _name = 'general.padron'
 
     padron_name = fields.Selection([
-    ('arba', 'ARBA'),
+    ('arba_ret', 'ARBA Ret.'),
+    ('arba_per', 'ARBA Per.'),
     ('agip', 'AGIP'),
     ('agip_rp', 'AGIP_RP'),
+    ('salta', 'Salta'),
     ('santa_fe', 'SANTA_FE'),
     ('jujuy', 'JUJUY'),
     ('cordoba', 'CORDOBA'),
-    ('tucuman', 'TUCUMAN'),
+    ('tucuman_acre', 'TUCUMAN ACREDITACIÓN'),
+    ('tucuman_coef', 'TUCUMAN COEFICIENTE'),
     ('formosa', 'FORMOSA'),
 ],string='Padron name')
     from_date = fields.Date('From date')

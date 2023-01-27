@@ -85,7 +85,7 @@ class PadronImport(models.Model):
                 try:
                     query = """ INSERT INTO general_padron
                         (create_uid, create_date, write_date, write_uid,
-                        from_date, to_date, percentage_perception, vat, multilateral)
+                        from_date, to_date, percentage_perception, vat, multilateral,padron_name)
                     SELECT  1 as create_uid,
                         to_date(create_date, 'DDMMYYYY'),
                         current_date,
@@ -96,18 +96,14 @@ class PadronImport(models.Model):
                         vat,
                         CASE WHEN multilateral = 'CM' THEN True
                              ELSE False
-                        END AS multilateral
-                    FROM temp_import
+                        END AS multilateral,
+            'tucuman_acre' as padron_name
+            FROM (SELECT from_date, coeficiente, percentage_perception, vat FROM temp_import) sub_query;
             """
-                    query2 = """
-            INSERT INTO general_padron
-            (padron_name)
-            VALUES (""" +padron_name+")"
 
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = "+ padron_name)
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'tucuman_acre' ")
                     _logger.info('[TUCUMAN] Acreditan - Copiando a tabla definitiva')
                     cursor.execute(query)
-                    cursor.execute(query2)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
                 except Exception:
@@ -139,7 +135,7 @@ class PadronImport(models.Model):
                 try:
                     query = """ INSERT INTO general_padron
                     (create_uid, create_date, write_date, write_uid,
-                    from_date, coeficiente, percentage_perception, vat)
+                    from_date, coeficiente, percentage_perception, vat,padron_name)
                     SELECT  1 as create_uid,
                         to_date(create_date, 'DDMMYYYY'),
                         current_date,
@@ -147,16 +143,14 @@ class PadronImport(models.Model):
                         to_date(from_date, 'YYYYMMDD'),
                         to_number(coeficiente, '999.9999'),
                         to_number(percentage_perception, '999.9999'),
-                        vat
-                    FROM temp_import"""
-                    query2 = """
-            INSERT INTO general_padron
-            (padron_name)
-            VALUES (""" +padron_name+")"
-                    cursor.execute("DELETE FROM general_padron")
+                        vat,
+            'tucuman_coef' as padron_name
+            FROM (SELECT from_date, coeficiente, percentage_perception, vat FROM temp_import) sub_query;
+            """
+
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'tucuman_coef' ")
                     _logger.info('[TUCUMAN] Coeficiente - Copiando a tabla definitiva')
                     cursor.execute(query)
-                    cursor.execute(query2)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
                 except Exception:

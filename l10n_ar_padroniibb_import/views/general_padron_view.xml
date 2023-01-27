@@ -75,6 +75,7 @@
         <record id="action_general_padron" model="ir.actions.act_window">
             <field name="name">General Padrón</field>
             <field name="res_model">general.padron</field>
+            <field name="context">{'group_by':'padron_name'}</field>
             <field name="view_mode">tree,form</field>
         </record>
 
