@@ -90,7 +90,7 @@ class PadronImport(models.Model):
                         THEN True ELSE False
                     END) as multilateral,
                     'arba_ret' as padron_name
-            FROM (SELECT create_date,vat, percentage_retention, from_date, to_date, multilateral FROM temp_import) sub_query;
+            FROM (SELECT create_date,vat, percentage, from_date, to_date, multilateral FROM temp_import) sub_query;
             """
 
                     cursor.execute("DELETE FROM general_padron WHERE padron_name = 'arba_ret' ")
@@ -132,7 +132,7 @@ class PadronImport(models.Model):
                         THEN True ELSE False
                     END) as multilateral,
                     'arba_per' as padron_name
-            FROM (SELECT create_date,vat, percentage_perception, from_date, to_date, multilateral FROM temp_import) sub_query;
+            FROM (SELECT create_date,vat, percentage, from_date, to_date, multilateral FROM temp_import) sub_query;
             """
 
                     cursor.execute("DELETE FROM general_padron WHERE padron_name = 'arba_per' ")
