@@ -46,7 +46,6 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_agip(self, vat):
-        #import wdb;wdb.set_trace()
         padron_agip_obj = self.env['general.padron']#cambia a general padron
         perception_obj = self.env['perception.perception']
         per_ids = padron_agip_obj.search([('vat', '=', vat),('padron_name', '=', 'agip_rp')])#añadir que busque por el padron name
@@ -227,7 +226,6 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_formosa(self, vat):
-        import wdb;wdb.set_trace()
         padron_formosa_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
         per_ids = padron_formosa_obj.search([('vat', '=', vat),('padron_name', '=', 'formosa')])
