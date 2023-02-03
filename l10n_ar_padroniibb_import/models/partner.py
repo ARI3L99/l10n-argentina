@@ -46,9 +46,10 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_agip(self, vat):
+        #import wdb;wdb.set_trace()
         padron_agip_obj = self.env['general.padron']#cambia a general padron
         perception_obj = self.env['perception.perception']
-        per_ids = padron_agip_obj.search([('vat', '=', vat),('padron_name', '=', 'agip')])#añadir que busque por el padron name
+        per_ids = padron_agip_obj.search([('vat', '=', vat),('padron_name', '=', 'agip_rp')])#añadir que busque por el padron name
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -61,6 +62,8 @@ class res_partner(models.Model):
                 'perception_id': percep_ids[0].id,
                 'percent': padron_percep.percentage_perception,
                 'sit_iibb': sit_iibb,
+                'ex_date_from' : padron_percep.from_date,
+                'ex_date_to' : padron_percep.to_date,
                 'from_padron': True,
             }
         return res
@@ -82,6 +85,8 @@ class res_partner(models.Model):
                 'perception_id': percep_ids[0].id,
                 'percent': padron_percep.percentage_perception,
                 'sit_iibb': sit_iibb,
+                'ex_date_from' : padron_percep.from_date,
+                'ex_date_to' : padron_percep.to_date,
                 'from_padron': True,
             }
         return res
@@ -104,6 +109,8 @@ class res_partner(models.Model):
                 'percent': padron_percep.percentage_perception,
                 'from_padron': True,
                 'sit_iibb': sit_iibb,
+                'ex_date_from' : padron_percep.from_date,
+                'ex_date_to' : padron_percep.to_date,
             }
         return res
 
@@ -125,6 +132,8 @@ class res_partner(models.Model):
                 'percent': padron_percep.percentage_perception,
                 'sit_iibb': sit_iibb,
                 'from_padron': True,
+                'ex_date_from' : padron_percep.from_date,
+                'ex_date_to' : padron_percep.to_date,
             }
         return res
 
@@ -146,6 +155,7 @@ class res_partner(models.Model):
                 'percent': padron_percep.percentage_perception,
                 'sit_iibb': sit_iibb,
                 'from_padron': True,
+                'ex_date_from' : padron_percep.from_date,
             }
         return res
 
@@ -174,7 +184,7 @@ class res_partner(models.Model):
     def _check_padron_perception_tucuman_acreditan(self, vat):
         padron_tucuman_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_tucuman_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman')])
+        per_ids = padron_tucuman_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman_acre')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -188,13 +198,15 @@ class res_partner(models.Model):
                 'percent': padron_percep.percentage_perception,
                 'sit_iibb': sit_iibb,
                 'from_padron': True,
+                'ex_date_from' : padron_percep.from_date,
+                'ex_date_to' : padron_percep.to_date,
             }
         return res
     @api.model
     def _check_padron_perception_tucuman_coeficiente(self, vat):
         padron_tucuman_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_tucuman_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman')])
+        per_ids = padron_tucuman_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman_coef')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -208,15 +220,19 @@ class res_partner(models.Model):
                 'percent': padron_percep.coeficiente,
                 'sit_iibb': sit_iibb,
                 'from_padron': True,
+                'ex_date_from' : padron_percep.from_date,
+                'ex_date_to' : padron_percep.to_date,
             }
         return res
 
     @api.model
     def _check_padron_perception_formosa(self, vat):
+        import wdb;wdb.set_trace()
         padron_formosa_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
         per_ids = padron_formosa_obj.search([('vat', '=', vat),('padron_name', '=', 'formosa')])
         res = {}
+        
         # TODO: Chequear vigencia
         if per_ids:
             percep_ids = perception_obj._get_perception_from_formosa()
@@ -224,11 +240,14 @@ class res_partner(models.Model):
                 return res
             padron_percep = per_ids[0]
             sit_iibb = self._compute_sit_iibb(padron_percep)
+            from_date,to_date = self.from_date_to_date_period(padron_percep.period)
             res = {
                 'perception_id': percep_ids[0].id,
                 'percent': padron_percep.percentage_perception,
                 'sit_iibb': sit_iibb,
                 'from_padron': True,
+                'ex_date_from' : from_date,
+                'ex_date_to' : to_date,
             }
         return res
 
@@ -438,7 +457,9 @@ class res_partner(models.Model):
                 perc_tucuman_co = self._check_padron_perception_tucuman_coeficiente(vat)
                 if perc_tucuman_co:
                     perceptions_list.append((0, 0, perc_tucuman_co))
-
+                perc_formosa = self._check_padron_perception_formosa(vat)
+                if perc_formosa:
+                    perceptions_list.append((0, 0, perc_formosa))
                 vals['perception_ids'] = perceptions_list
 
 
@@ -759,6 +780,16 @@ class res_partner(models.Model):
             self.env['res.partner.perception'].search([('partner_id', '=', partner.id)]).unlink()
             self.env['res.partner.retention'].search([('partner_id', '=', partner.id)]).unlink()
         return super(res_partner, self).unlink()
+    
+    def from_date_to_date_period(self,period):
+        from datetime import datetime,timedelta
+        year = int(str(period)[:4])
+        month = int(str(period)[4:])
+        from_date = datetime(year, month,1)
+        to_date = from_date + timedelta(days=32) - timedelta(days=from_date.day)
+        if to_date.month != from_date.month:
+            to_date = to_date -timedelta(days = to_date.day)
+        return from_date.strftime('%m/%d/%Y'), to_date.strftime('%m/%d/%Y')
 
 
 class res_partner_perception(models.Model):
