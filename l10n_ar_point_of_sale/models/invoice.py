@@ -539,3 +539,4 @@ class AccountInvoiceTax(models.Model):
         'account.tax', string='Account Tax', required=True)
     is_exempt = fields.Boolean(
         string='Is Exempt', readonly=True)
+    percentage = fields.Float(string='Percentage')
