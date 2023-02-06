@@ -1,5 +1,7 @@
 from odoo import models, fields
 from odoo.exceptions import ValidationError
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 class GeneralPadron(models.Model):
     _name = 'general.padron'
@@ -29,7 +31,7 @@ class GeneralPadron(models.Model):
     group_perception_id = fields.Many2one(
         'agip.perception.group', 'Perception Group')
     coeficiente = fields.Float("Coeficiente")
-    
+
     denomination = fields.Text('Denomination')
     period = fields.Char('Period')
     category = fields.Char('Category', size=20)
@@ -44,3 +46,12 @@ class GeneralPadron(models.Model):
     date_per_27_00 = fields.Date('Date perception rg 27 00')
     regime = fields.Text('Regime')
     exent = fields.Boolean('Exent')
+
+    def delete_padron(self,padron_name):
+        """
+        delete all padrones generated before the date configured by months
+        """
+        patterns_keep = self.env['ir.config_parameter'].sudo().get_param('account.patterns_keep')
+        date = datetime.today() - relativedelta(months=int(patterns_keep), day=1)
+        self.env['general.padron'].search([('from_date', '<', date), ('padron_name', '=', padron_name)]).unlink()
+

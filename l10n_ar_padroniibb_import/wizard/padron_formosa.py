@@ -153,6 +153,7 @@ class PadronImport(models.Model):
             wiz.action_update_formosa()
 
             cursor.commit()
+            self.env['general.padron'].delete_padron('formosa')
             _logger.info('[FORMOSA] SUCCESS: Fin de carga de padron de formosa')
 
         finally:

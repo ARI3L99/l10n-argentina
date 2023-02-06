@@ -123,6 +123,7 @@ class PadronImport(models.Model):
             wiz.action_update_santa_fe()
 
             cursor.commit()
+            self.env['general.padron'].delete_padron('santa_fe')
             _logger.info('[SANTA_FE] SUCCESS: Fin de carga de padron de santa fe')
 
         finally:

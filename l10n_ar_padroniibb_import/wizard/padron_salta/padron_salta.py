@@ -120,6 +120,8 @@ class PadronImport(models.Model):
 
             wiz.action_update_salta()
 
+            self.env['general.padron'].delete_padron('salta')
+
             cursor.commit()
             _logger.info('[SALTA] SUCCESS: Fin de carga de padron de salta')
 

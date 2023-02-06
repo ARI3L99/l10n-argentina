@@ -125,6 +125,7 @@ class PadronImport(models.Model):
             wiz.action_update_jujuy()
 
             cursor.commit()
+            self.env['general.padron'].delete_padron('jujuy')
             _logger.info('[JUJUY] SUCCESS: Fin de carga de padron de jujuy')
 
         finally:

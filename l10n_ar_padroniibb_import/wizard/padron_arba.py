@@ -103,6 +103,7 @@ class PadronImport(models.Model):
                     _logger.warning('[ARBA]ERROR: Rollback')
                 else:
                     cursor.commit()
+                    self.env['general.padron'].delete_padron('arba_ret')
                     _logger.info('[ARBA]SUCCESS: Fin de carga de retenciones')
             if 'Per' in file_name:
                 self.create_temporary_table()
@@ -154,6 +155,8 @@ class PadronImport(models.Model):
                     })
                     # TODO
                     wiz.action_update()
+
+                    self.env['general.padron'].delete_padron('arba_per')
 
                     cursor.commit()
                     _logger.info('[ARBA]SUCCESS: Fin de carga de percepciones')

@@ -45,6 +45,7 @@
         "wizard/padron_mass_update_view.xml",
         "views/padron_salta.xml",
         "views/general_padron_view.xml",
+        "views/res_config_settings_view.xml",
 
     ],
     # ~ "external_dependencies": {

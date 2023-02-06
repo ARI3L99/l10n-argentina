@@ -134,6 +134,7 @@ class PadronImport(models.Model):
             wiz.action_update_cordoba()
 
             cursor.commit()
+            self.env['general.padron'].delete_padron('cordoba')
             _logger.info('[CORDOBA] SUCCESS: Fin de carga de padron de cordoba')
 
         finally:

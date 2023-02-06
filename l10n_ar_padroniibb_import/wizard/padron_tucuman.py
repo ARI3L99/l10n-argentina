@@ -117,6 +117,7 @@ class PadronImport(models.Model):
                     # TODO
                     wiz.action_update_tucuman_ac()
                     cursor.commit()
+                    self.env['general.padron'].delete_padron('tucuman_acre')
                     _logger.info('[TUCUMAN]SUCCESS: Fin de carga de acreditan')
 
             if "archivocoef" in file_name:
@@ -165,6 +166,7 @@ class PadronImport(models.Model):
                     # TODO
                     wiz.action_update_tucuman_co()
                     cursor.commit()
+                    self.env['general.padron'].delete_padron('tucuman_coef')
                     _logger.info('[TUCUMAN]SUCCESS: Fin de carga de Coeficiente')
 
                 finally:

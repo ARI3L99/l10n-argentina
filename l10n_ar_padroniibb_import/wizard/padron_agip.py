@@ -119,6 +119,9 @@ class PadronImport(models.Model):
                     wiz.action_update()
 
                     cursor.commit()
+
+                    self.env['general.padron'].delete_padron('agip')
+
                     _logger.info('[AGIP] SUCCESS: Fin de carga de padron de agip')
 
             if "REG" in file_name:
@@ -181,6 +184,7 @@ class PadronImport(models.Model):
                     wiz.action_update()
 
                     cursor.commit()
+                    self.env['general.padron'].delete_padron('agip_rp')
                     _logger.info('[AGIP] SUCCESS: Fin de carga de padron de agip rp')
 
                 finally:
