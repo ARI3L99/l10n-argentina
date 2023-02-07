@@ -9,6 +9,7 @@ class GeneralPadron(models.Model):
     ('arba_per', 'ARBA Per.'),
     ('agip', 'AGIP'),
     ('agip_rp', 'AGIP_RP'),
+    ('agip_rg', 'AGIP_RG'),
     ('salta', 'Salta'),
     ('santa_fe', 'SANTA_FE'),
     ('jujuy', 'JUJUY'),

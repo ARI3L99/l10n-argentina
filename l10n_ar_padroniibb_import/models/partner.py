@@ -728,8 +728,9 @@ class res_partner(models.Model):
         unique_perceptions = []
         perception_ids = vals['perception_ids'] if 'perception_ids' in vals and vals['perception_ids'] else []
         # check if perception_id are repeated and just add one of each perception
+        
         for new_per in real_comms:
-            if new_per[2]['perception_id'] not in [all_per[2]['perception_id'] for all_per in perception_ids]:
+            #if new_per[2]['perception_id'] not in [all_per[2]['perception_id'] for all_per in perception_ids]:
                 unique_perceptions.append(new_per)
 
         vals.update({
