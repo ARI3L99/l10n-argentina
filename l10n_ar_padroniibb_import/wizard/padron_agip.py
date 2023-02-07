@@ -95,12 +95,12 @@ class PadronImport(models.Model):
                             ELSE False
                         END) as multilateral,
                         name_partner,
-                        'agip_rp' as padron_name
+                        'agip_rg' as padron_name
             FROM (SELECT create_date,from_date, to_date, percentage_perception, percentage_retention,
                         vat, multilateral, name_partner FROM temp_import) sub_query;
             """
 
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'agip_rp' ")
+                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'agip_rg' OR padron_name = 'agip_rp'")
                     cursor.execute(query)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
