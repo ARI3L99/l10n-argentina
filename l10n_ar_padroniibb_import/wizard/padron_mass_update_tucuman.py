@@ -418,7 +418,7 @@ class PadronMassUpdateTucuman(models.TransientModel):
 
         if self.tucuman_ac:
             # Actualizamos Percepciones
-            percep_tucuman_ac = perception_obj._get_perception_from_tucuman()
+            percep_tucuman_ac = perception_obj._get_perception_from_tucuman_ac()
             if not percep_tucuman_ac:
                 raise ValidationError(
                     _("Perception Error!\n") +
@@ -440,7 +440,7 @@ class PadronMassUpdateTucuman(models.TransientModel):
         retention_obj = self.env['retention.retention']
         if self.tucuman_co:
             # Actualizamos Percepciones
-            percep_tucuman_co = perception_obj._get_perception_from_tucuman()
+            percep_tucuman_co = perception_obj._get_perception_from_tucuman_co()
             if not percep_tucuman_co:
                 raise ValidationError(
                     _("Perception Error!\n") +

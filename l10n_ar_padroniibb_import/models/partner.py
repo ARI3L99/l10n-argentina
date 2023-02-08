@@ -181,13 +181,14 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_tucuman_acreditan(self, vat):
+    
         padron_tucuman_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
         per_ids = padron_tucuman_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman_acre')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
-            percep_ids = perception_obj._get_perception_from_tucuman()
+            percep_ids = perception_obj._get_perception_from_tucuman_ac()
             if not percep_ids:
                 return res
             padron_percep = per_ids[0]
@@ -209,14 +210,14 @@ class res_partner(models.Model):
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
-            percep_ids = perception_obj._get_perception_from_tucuman()
+            percep_ids = perception_obj._get_perception_from_tucuman_co()
             if not percep_ids:
                 return res
             padron_percep = per_ids[0]
             sit_iibb = self._compute_sit_iibb(padron_percep)
             res = {
                 'perception_id': percep_ids[0].id,
-                'percent': padron_percep.coeficiente,
+                'percent': padron_percep.percentage_perception,
                 'sit_iibb': sit_iibb,
                 'from_padron': True,
                 'ex_date_from' : padron_percep.from_date,
@@ -357,7 +358,7 @@ class res_partner(models.Model):
     def _check_padron_retention_tucuman_acreditan(self, vat):
         padron_tucuman_ret_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_tucuman_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman')])
+        ret_ids = padron_tucuman_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman_acre')])
         res = {}
         # TODO: Chequear vigencia
         if ret_ids:
@@ -378,7 +379,7 @@ class res_partner(models.Model):
     def _check_padron_retention_tucuman_coeficiente(self, vat):
         padron_tucuman_ret_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_tucuman_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman')])
+        ret_ids = padron_tucuman_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'tucuman_coef')])
         res = {}
         # TODO: Chequear vigencia
         if ret_ids:
@@ -447,7 +448,6 @@ class res_partner(models.Model):
                 perc_cordoba = self._check_padron_perception_cordoba(vat)
                 if perc_cordoba:
                     perceptions_list.append((0, 0, perc_cordoba))
-
                 perc_tucuman_ac = self._check_padron_perception_tucuman_acreditan(vat)
                 if perc_tucuman_ac:
                     perceptions_list.append((0, 0, perc_tucuman_ac))
@@ -538,10 +538,10 @@ class res_partner(models.Model):
             ('partner_id', '=', self.id),
             ('perception_id', '=', perception_id)])
 
-        if len(partner_perception_ids) > 1:
-            raise ValidationError(
-                _("Perception Error!\n") +
-                _("Partner already has the perception more than once"))
+        #if len(partner_perception_ids) > 1:
+        #    raise ValidationError(
+        #        _("Perception Error!\n") +
+        #        _("Partner already has the perception more than once"))
 
         if not partner_perception_ids:
             res['perception_ids'] = [(0, 0, perception)]
