@@ -49,7 +49,6 @@ class PadronImport(models.Model):
 
         _logger.info("[TUCUMAN] Inicio de importacion")
         dsn_pg_splitted = get_dsn_pg(self.env.cr)  # Configuracion base de datos
-        padron_name = 'tucuman'
         _logger.info("[TUCUMAN] Files extracted: " + str(len(files)))
         if len(files) != 1:
             raise ValidationError(

@@ -13,7 +13,8 @@ PADRON = [
     ('santa_fe', 'SANTA_FE'),
     ('jujuy', 'JUJUY'),
     ('cordoba', 'CORDOBA'),
-    ('tucuman', 'TUCUMAN'),
+    ('tucuman_acre', 'TUCUMAN ACREDITACIÓN'),
+    ('tucuman_coef', 'TUCUMAN COEFICIENTE'),
     ('formosa', 'FORMOSA'),
     ('salta', 'SALTA'),
 ]
@@ -101,8 +102,20 @@ class PerceptionPerception(models.Model):
             return ret
 
     @api.model
-    def _get_perception_from_tucuman(self, ):
-        ret = self.search([('from_register', '=', 'tucuman')])
+    def _get_perception_from_tucuman_ac(self, ):
+        ret = self.search([('from_register', '=', 'tucuman_acre')])
+        if len(ret) > 1:
+            raise ValidationError(
+                _('Perceptions Improperly Configured\n') +
+                _('You can not have more than one perception to update ' +
+                  'from Tucumán. Please review configuration'))
+        elif len(ret) == 0:
+            return False
+        else:
+            return ret
+    @api.model
+    def _get_perception_from_tucuman_co(self, ):
+        ret = self.search([('from_register', '=', 'tucuman_coef')])
         if len(ret) > 1:
             raise ValidationError(
                 _('Perceptions Improperly Configured\n') +
