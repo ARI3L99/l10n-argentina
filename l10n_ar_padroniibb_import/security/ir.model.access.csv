@@ -17,3 +17,4 @@
 "access_cm05","access_cm05","model_cm05","base.group_user",1,1,1,1
 "access_padron_salta","access_padron_salta","model_padron_salta","base.group_user",1,0,0,1
 access_general_padron,general_padron,model_general_padron,base.group_user,1,1,1,1
+access_gross_income,gross_income,model_gross_income,base.group_user,1,1,1,1

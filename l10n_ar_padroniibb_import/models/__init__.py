@@ -8,6 +8,7 @@ from . import partner  # noqa
 from . import perception  # noqa
 from . import retention  # noqa
 from . import cm05  # noqa
+from . import gross_income
 from . import res_config_settings
 
 from . import general_padron
