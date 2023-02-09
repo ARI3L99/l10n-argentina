@@ -9,6 +9,8 @@ from odoo import registry
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
 from odoo.tools import config
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
 
@@ -107,8 +109,13 @@ class PadronImport(models.Model):
             'jujuy' as padron_name
             FROM (SELECT vat,from_date,percentage_perception,percentage_retention FROM temp_import) sub_query;
             """
-
-            cursor.execute("DELETE FROM general_padron WHERE padron_name = 'jujuy' ")
+            pattern_keep = int(self.env['ir.config_parameter'].sudo().get_param('account.patterns_keep'))
+            current_month = datetime.now()
+            current_month = current_month - relativedelta(months=pattern_keep)
+            if current_month.day > 1:
+                current_month = current_month - relativedelta(day=1)
+            delete_query = "DELETE FROM general_padron WHERE padron_name = 'jujuy' AND from_date < %s"
+            cursor.execute(delete_query,(current_month,))
             cursor.execute(query)
             cursor.execute("DROP TABLE IF EXISTS temp_import")
             cursor.commit()

@@ -1,3 +1,5 @@
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 import logging
 import os
 import tempfile
@@ -98,9 +100,14 @@ class PadronImport(models.Model):
                         END AS multilateral,
             'tucuman_acre' as padron_name
             FROM (SELECT create_date,from_date, to_date, percentage_perception, vat, multilateral FROM temp_import) sub_query;
-            """
-
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'tucuman_acre' ")
+            """     
+                    pattern_keep = int(self.env['ir.config_parameter'].sudo().get_param('account.patterns_keep'))
+                    current_month = datetime.now()
+                    current_month = current_month - relativedelta(months=pattern_keep)
+                    if current_month.day > 1:
+                        current_month = current_month - relativedelta(day=1)
+                    delete_query = "DELETE FROM general_padron WHERE padron_name = 'tucuman_acre' AND from_date < %s"
+                    cursor.execute(delete_query,(current_month,))
                     _logger.info('[TUCUMAN] Acreditan - Copiando a tabla definitiva')
                     cursor.execute(query)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
@@ -147,8 +154,13 @@ class PadronImport(models.Model):
             'tucuman_coef' as padron_name
             FROM (SELECT create_date,from_date, coeficiente, percentage_perception, vat FROM temp_import) sub_query;
             """
-
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'tucuman_coef' ")
+                    pattern_keep = int(self.env['ir.config_parameter'].sudo().get_param('account.patterns_keep'))
+                    current_month = datetime.now()
+                    current_month = current_month - relativedelta(months=pattern_keep)
+                    if current_month.day > 1:
+                        current_month = current_month - relativedelta(day=1)
+                    delete_query = "DELETE FROM general_padron WHERE padron_name = 'tucuman_coef' AND from_date < %s"
+                    cursor.execute(delete_query,(current_month,))
                     _logger.info('[TUCUMAN] Coeficiente - Copiando a tabla definitiva')
                     cursor.execute(query)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")

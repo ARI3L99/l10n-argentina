@@ -94,7 +94,7 @@ class res_partner(models.Model):
     def _check_padron_perception_arba(self, vat):
         padron_arba_per_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_arba_per_obj.search([('vat', '=', vat),('padron_name', '=', 'arba')])
+        per_ids = padron_arba_per_obj.search([('vat', '=', vat),('padron_name', '=', 'arba_per')])
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
@@ -296,7 +296,7 @@ class res_partner(models.Model):
     def _check_padron_retention_arba(self, vat):
         padron_arba_ret_obj = self.env['general.padron']
         retention_obj = self.env['retention.retention']
-        ret_ids = padron_arba_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'arba')])
+        ret_ids = padron_arba_ret_obj.search([('vat', '=', vat),('padron_name', '=', 'arba_ret')])
         res = {}
         # TODO: Chequear vigencia
         if ret_ids:

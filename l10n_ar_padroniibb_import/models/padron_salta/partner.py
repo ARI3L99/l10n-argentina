@@ -5,9 +5,9 @@ class res_partner(models.Model):
 
     @api.model
     def _check_padron_perception_salta(self, vat):
-        padron_salta_obj = self.env['padron.salta']
+        padron_salta_obj = self.env['general.padron']
         perception_obj = self.env['perception.perception']
-        per_ids = padron_salta_obj.search([('vat', '=', vat)])
+        per_ids = padron_salta_obj.search([('vat', '=', vat),('padron_name', '=', 'salta')])
         res = {}
         if per_ids:
             percep_ids = perception_obj._get_perception_from_salta()
