@@ -1,0 +1,9 @@
+<openerp>
+    <data noupdate="1">
+
+        <record id="ws_sr_padron_a5" model="afipws.service">
+            <field name="name">ws_sr_padron_a5</field>
+            <field name="description">Consulta de Padrón Alcance 5</field>
+        </record>
+    </data>
+</openerp>

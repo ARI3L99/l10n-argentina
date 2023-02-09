@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+         <!-- **********************-->
+        <!-- * WSFE Configuration *-->
+        <!-- **********************-->
+        <!-- Form View for wsfe.config -->
+        <record id="view_padron_A5_config_form" model="ir.ui.view">
+            <field name="name">padron.a5.config.form</field>
+            <field name="model">padron.a5.config</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <field name="company_id" select="1"/>
+                            <field name="cuit" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_padron_A5_config" model="ir.actions.act_window">
+            <field name="name">Config Padron A5</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">padron.a5.config</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="padron_a5_config_menu"
+            name="Configuration Padron A5"
+            parent="l10n_ar_wsaa.base_afipws"
+            action="action_padron_A5_config"/>
+    </data>
+</odoo>
