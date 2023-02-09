@@ -7,6 +7,8 @@ from odoo import registry
 from odoo import _, api, models
 from odoo.exceptions import ValidationError, Warning
 from odoo.tools import config
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
 
@@ -91,9 +93,15 @@ class PadronImport(models.Model):
                     END) as multilateral,
                     'arba_ret' as padron_name
             FROM (SELECT create_date,vat, percentage, from_date, to_date, multilateral FROM temp_import) sub_query;
-            """
-
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'arba_ret' ")
+            """     
+                    pattern_keep = int(self.env['ir.config_parameter'].sudo().get_param('account.patterns_keep'))
+                    current_month = datetime.now()
+   
+                    current_month = current_month - relativedelta(months=pattern_keep)
+                    if current_month.day > 1:
+                        current_month = current_month - relativedelta(day=1)
+                    delete_query = "DELETE FROM general_padron WHERE padron_name = 'arba_ret' AND from_date < %s"
+                    cursor.execute(delete_query,(current_month,))
                     _logger.info('[ARBA] Ret - Copiando a tabla definitiva')
                     cursor.execute(query)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
@@ -134,9 +142,15 @@ class PadronImport(models.Model):
                     END) as multilateral,
                     'arba_per' as padron_name
             FROM (SELECT create_date,vat, percentage, from_date, to_date, multilateral FROM temp_import) sub_query;
-            """
-
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'arba_per' ")
+            """ 
+                    pattern_keep = int(self.env['ir.config_parameter'].sudo().get_param('account.patterns_keep'))
+                    current_month = datetime.now()
+   
+                    current_month = current_month - relativedelta(months=pattern_keep)
+                    if current_month.day > 1:
+                        current_month = current_month - relativedelta(day=1)
+                    delete_query = "DELETE FROM general_padron WHERE padron_name = 'arba_per' AND from_date < %s"
+                    cursor.execute(delete_query,(current_month,))
                     _logger.info('[ARBA] Per - Copiando a tabla definitiva')
                     cursor.execute(query)
 

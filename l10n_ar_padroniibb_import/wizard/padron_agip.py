@@ -7,6 +7,8 @@ from odoo import registry
 from odoo import _, api, models
 from odoo.exceptions import ValidationError, Warning
 from odoo.tools import config
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
 
@@ -98,9 +100,16 @@ class PadronImport(models.Model):
                         'agip_rg' as padron_name
             FROM (SELECT create_date,from_date, to_date, percentage_perception, percentage_retention,
                         vat, multilateral, name_partner FROM temp_import) sub_query;
-            """
-
-                    cursor.execute("DELETE FROM general_padron WHERE padron_name = 'agip_rg' OR padron_name = 'agip_rp'")
+            """     
+                    #import wdb;wdb.set_trace()
+                    pattern_keep = int(self.env['ir.config_parameter'].sudo().get_param('account.patterns_keep'))
+                    current_month = datetime.now()
+   
+                    current_month = current_month - relativedelta(months=pattern_keep)
+                    if current_month.day > 1:
+                        current_month = current_month - relativedelta(day=1)
+                    delete_query = "DELETE FROM general_padron WHERE padron_name = 'agip_rg' AND from_date < %s"
+                    cursor.execute(delete_query,(current_month,))
                     cursor.execute(query)
                     cursor.execute("DROP TABLE IF EXISTS temp_import")
                     cursor.commit()
