@@ -48,7 +48,7 @@ class res_partner(models.Model):
     def _check_padron_perception_agip(self, vat):
         padron_agip_obj = self.env['general.padron']#cambia a general padron
         perception_obj = self.env['perception.perception']
-        per_ids = padron_agip_obj.search([('vat', '=', vat),('padron_name', '=', 'agip_rp')])#añadir que busque por el padron name
+        per_ids = padron_agip_obj.search([('vat', '=', vat),('padron_name', '=', 'agip_rg')])#añadir que busque por el padron name
         res = {}
         # TODO: Chequear vigencia
         if per_ids:
