@@ -8,10 +8,10 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='accounting_disabled']" position="after">
                 <page string="IIBB">
-                    <field name="gross_income" nolabel="1">
-                        <tree editable="bottom" create="true">
+                    <field name="gross_income" nolabel="1" >
+                        <tree editable="bottom" create="true" delete="false">
                             <field name="province_id" domain="[('country_id', '=', 'Argentina')]" readonly="0"/>
-                            <field name="type_taxpayer" readonly="0"/>
+                            <field name="type_taxpayer" readonly="0" required="1"/>
                         </tree>
                     </field>
                 </page>
